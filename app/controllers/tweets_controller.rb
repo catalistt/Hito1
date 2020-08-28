@@ -5,6 +5,7 @@ class TweetsController < ApplicationController
 
   def show
     @user = @user.image_url
+    @likes = Likes.with_tweet.count(distinct: true) 
   end
 
 
@@ -18,6 +19,7 @@ class TweetsController < ApplicationController
   def create
     @tweet = Tweet.new(tweet_params)
     @tweet.user = current_user
+    
     respond_to do |format|
       if @tweet.save
         format.html { redirect_to @tweet, notice: 'Tweet was successfully created.' }

@@ -1,39 +1,31 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
 
-<h1>Tweets!</h1>
-
-<div class="container">
-<table class="table">
-  <thead>
-    <tr>
-      <th>Usuario</th>
-      <th>Contenido</th>
-      <th>Likes</th>
-      <th>Retweet</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @tweets.each do |tweet| %>
-      <tr>
-        <td><%= tweet.user %></td>
-        <td><%= tweet.content %></td>
-        <td><%= tweet.likes %></td>
-        <td><%= tweet.retweets %></td>
-        <% if current_user %>
-          <td><%= link_to 'Show', tweet %></td>
-          <td><%= link_to 'Edit', edit_tweet_path(tweet) %></td>
-          <td><%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <% else %>
-        <% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-<%= paginate @tweets %>
-<%= link_to 'New Tweet', new_tweet_path %>
+  <div class="col-xs-8 col-sm-10 col-md-10">
+    <h1>Tweets</h1>
+  </div>
+  <div class="col-xs-4 col-sm-2 col-md-2">
+    <%= link_to 'New Tweet', new_tweet_path, class: "btn btn-light btn-sm" %>
+  </div>
 </div>
 
+<div class="row">
+  <% @tweets.reverse.each do |tweet| %>
+    <div class="card text-center col-sm-12 col-md-12" style="width: 18rem;">
+      <h3><%= tweet.user %></h3>
+      <h3><%= tweet.content %></h3>
+      <small><%= time_ago_in_words(tweet.created_at) %> ago</small>
+      <% if current_user %>
+        <p>  
+        <%= link_to 'Edit', edit_tweet_path(tweet), class: "btn btn-info" %> 
+        <%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></p>
+      <% else %>
+        <%= link_to 'Show', tweet, class: "btn btn-primary" %> 
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+
+<br>
+
+<%= paginate @tweets %>
