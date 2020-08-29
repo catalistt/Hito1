@@ -18,14 +18,16 @@
       <h5><%= tweet.content %></h5>
       <p><%= tweet.likes_count %>  Likes
       <%= tweet.retweets_count %>  Retweets</p>
-      
-      <%= link_to tweet do %>
-        <small><%= time_ago_in_words(tweet.created_at) %> ago</small> 
-      <% end %>
       <p>  
+        <% if user_signed_in?%> 
+        <%= link_to tweet do %>
+          <small><%= time_ago_in_words(tweet.created_at) %> ago</small> 
+        <% end %>
+        <br>
         <%= link_to ' Retweet ' , retweets_path(tweet.id), method: :post , class: "fas fa-retweet"%>
         <%= link_to ' Like ' , likes_path(tweet.id), method: :post , class: "far fa-thumbs-up"%>
-
+        <% else %>
+        <% end %>
       </p>
     </div>
     <br>
