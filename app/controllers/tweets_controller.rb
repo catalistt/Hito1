@@ -1,10 +1,16 @@
 class TweetsController < ApplicationController
+  before_action :set_tweet, only: [:show, :edit, :update, :destroy]
+
   def index
     @tweet = Tweet.new
-    @tweets = Tweet.order(:created_at).page params[:page]
+    @tweets = Tweet.order('created_at desc').page params[:page]
   end
 
   def show
+    @tweet = Tweet.find(params[:id])
+    @user_c = current_user.id
+    #@users = User.joins("INNER JOIN likes ON memberships.group_id = posts.group_id"
+    #Tweet.joins(:likes).where("tweet_id = ?", params[:tweet_id])
   end
 
 
@@ -43,11 +49,11 @@ class TweetsController < ApplicationController
   end
 
   def destroy
-    @tweet.destroy
-    respond_to do |format|
-      format.html { redirect_to tweets_url, notice: 'Tweet was successfully deleted.' }
-      format.json { head :no_content }
+    @tweet_update = Tweet.find(params[:id])
+    if @tweet_update.present?
+      @tweet_update.destroy
     end
+    redirect_to root_path
   end
 
   private

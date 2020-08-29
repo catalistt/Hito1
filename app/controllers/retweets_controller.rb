@@ -5,6 +5,7 @@ class RetweetsController < ApplicationController
 
 
   def show
+    
   end
 
 
@@ -16,17 +17,30 @@ class RetweetsController < ApplicationController
   end
 
   def create
-    @retweet = Retweet.new(tweet_params)
+    #misma lógica que para likes
 
-    respond_to do |format|
-      if @retweet.save
-        format.html { redirect_to @retweet, notice: 'retweet was successfully created.' }
-        format.json { render :show, status: :created, location: @retweet }
-      else
-        format.html { render :new }
-        format.json { render json: @retweet.errors, status: :unprocessable_entity }
-      end
+    #pasos para obtener el id de tweets a través de format (hash que "manda")
+    tweet = Tweet.find_by(id:params[:format])
+    tweet_id = tweet.id
+    #obtener el id de user a través del helper de devise
+    user_id = current_user.id
+    tiene_retweet = Retweet.where(user_id: user_id, tweet_id: tweet_id).present?
+
+    #luego de tener al tweet y user asociado, hay que determinar si existe un registro de ese retweet
+    #considerar que el registro sea mayor a 0, sino quedará negativo
+    if tiene_retweet && tweet.retweets_count > 0
+      #si tiene retweet, entonces que lo elimine del registro de la tabla tweet
+      tweet.retweets_count-=1
+    else
+      #se crea un retweet con el usuario y tweet correspondiente
+      Retweet.create(user_id:user_id, tweet_id:tweet_id)
+      #se traspasa la info a la tabla tweet
+      tweet.retweets_count+=1
     end
+    #para recargar la página con los nuevos likes/dislikes
+    redirect_back(fallback_location: root_path)
+    #para guardar en la tabla de tweets
+    tweet.save
   end
 
   def update

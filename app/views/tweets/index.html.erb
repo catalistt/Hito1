@@ -5,31 +5,28 @@
   <div class="center"> Would you like to tweet something? </h5> 
   <%= render 'tweets/form', tweet: @tweet %>
   </div>
-<% end %>
+<% end %> 
 <br>
 <br>
 
 <div class="row center">
 <div class="col-sm-2 col-md-2">
-  <% @tweets.reverse.each do |tweet| %>
-    <div class="card text-center" style="width: 18rem;">
+  <% @tweets.each do |tweet| %>
+    <div class="card text-center" style="width: 30rem;">
       <%= image_tag (tweet.user.image_url), class:"user_image rounded-circle border" if tweet.user.image_url.present?%>
       <h3 class="card-title"><%= tweet.user %></h3>
-      <h3><%= tweet.content %></h3>
+      <h5><%= tweet.content %></h5>
       <p><%= tweet.likes_count %>  Likes
       <%= tweet.retweets_count %>  Retweets</p>
-      <small><%= time_ago_in_words(tweet.created_at) %> ago</small>
-      <p>
-        <%= link_to ' Like' , new_like_path, method: :post , class: "far fa-thumbs-up"%>  
-        <%= link_to ' Retweet' , new_retweet_path, method: :post , class: "fas fa-retweet"%>
-      </p>
-      <% if current_user %>
-        <p>  
-        <%= link_to 'Edit', edit_tweet_path(tweet), class: "btn btn-info" %> 
-        <%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></p>
-      <% else %>
-        <%= link_to 'Show', tweet, class: "btn btn-primary" %> 
+      
+      <%= link_to tweet do %>
+        <small><%= time_ago_in_words(tweet.created_at) %> ago</small> 
       <% end %>
+      <p>  
+        <%= link_to ' Retweet ' , retweets_path(tweet.id), method: :post , class: "fas fa-retweet"%>
+        <%= link_to ' Like ' , likes_path(tweet.id), method: :post , class: "far fa-thumbs-up"%>
+
+      </p>
     </div>
     <br>
   <% end %>
