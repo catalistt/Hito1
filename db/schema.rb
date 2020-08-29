@@ -32,8 +32,8 @@ ActiveRecord::Schema.define(version: 2020_08_28_223603) do
 
   create_table "tweets", force: :cascade do |t|
     t.string "content"
-    t.integer "likes_count"
-    t.integer "retweets_count"
+    t.integer "likes_count", default: 0, null: false
+    t.integer "retweets_count", default: 0, null: false
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

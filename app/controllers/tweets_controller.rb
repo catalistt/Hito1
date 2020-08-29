@@ -1,11 +1,10 @@
 class TweetsController < ApplicationController
   def index
+    @tweet = Tweet.new
     @tweets = Tweet.order(:created_at).page params[:page]
   end
 
   def show
-    @user_image = @user.image_url
-    #@likes = Likes.with_tweet.count(distinct: true) 
   end
 
 
@@ -22,7 +21,7 @@ class TweetsController < ApplicationController
     
     respond_to do |format|
       if @tweet.save
-        format.html { redirect_to @tweet, notice: 'Tweet was successfully created.' }
+        format.html { redirect_to root_path, notice: 'Tweet was successfully created.' }
         format.json { render :show, status: :created, location: @tweet }
       else
         format.html { render :new }

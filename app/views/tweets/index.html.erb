@@ -1,19 +1,28 @@
+<div class="container">
 <h1>Tweets</h1>
+
 <% if current_user%>
+  <div class="center"> Would you like to tweet something? </h5> 
   <%= render 'tweets/form', tweet: @tweet %>
+  </div>
 <% end %>
 <br>
+<br>
 
-<div class="row">
-<div class="col-sm-2 col-md-2" style="width: 18rem;">
+<div class="row center">
+<div class="col-sm-2 col-md-2">
   <% @tweets.reverse.each do |tweet| %>
     <div class="card text-center" style="width: 18rem;">
       <%= image_tag (tweet.user.image_url), class:"user_image rounded-circle border" if tweet.user.image_url.present?%>
       <h3 class="card-title"><%= tweet.user %></h3>
       <h3><%= tweet.content %></h3>
-      <h3><%= tweet.likes_count %></h3>
-      <h3><%= tweet.retweets_count %></h3>
+      <p><%= tweet.likes_count %>  Likes
+      <%= tweet.retweets_count %>  Retweets</p>
       <small><%= time_ago_in_words(tweet.created_at) %> ago</small>
+      <p>
+        <%= link_to ' Like' , new_like_path, method: :post , class: "far fa-thumbs-up"%>  
+        <%= link_to ' Retweet' , new_retweet_path, method: :post , class: "fas fa-retweet"%>
+      </p>
       <% if current_user %>
         <p>  
         <%= link_to 'Edit', edit_tweet_path(tweet), class: "btn btn-info" %> 
@@ -22,7 +31,9 @@
         <%= link_to 'Show', tweet, class: "btn btn-primary" %> 
       <% end %>
     </div>
+    <br>
   <% end %>
+</div>
 </div>
 </div>
 <br>
