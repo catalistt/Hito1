@@ -1,18 +1,18 @@
-<div class="row">
-
-  <div class="col-xs-8 col-sm-10 col-md-10">
-    <h1>Tweets</h1>
-  </div>
-  <div class="col-xs-4 col-sm-2 col-md-2">
-    <%= link_to 'New Tweet', new_tweet_path, class: "btn btn-light btn-sm" %>
-  </div>
-</div>
+<h1>Tweets</h1>
+<% if current_user%>
+  <%= render 'tweets/form', tweet: @tweet %>
+<% end %>
+<br>
 
 <div class="row">
+<div class="col-sm-2 col-md-2" style="width: 18rem;">
   <% @tweets.reverse.each do |tweet| %>
-    <div class="card text-center col-sm-12 col-md-12" style="width: 18rem;">
-      <h3><%= tweet.user %></h3>
+    <div class="card text-center" style="width: 18rem;">
+      <%= image_tag (tweet.user.image_url), class:"user_image rounded-circle border" if tweet.user.image_url.present?%>
+      <h3 class="card-title"><%= tweet.user %></h3>
       <h3><%= tweet.content %></h3>
+      <h3><%= tweet.likes_count %></h3>
+      <h3><%= tweet.retweets_count %></h3>
       <small><%= time_ago_in_words(tweet.created_at) %> ago</small>
       <% if current_user %>
         <p>  
@@ -24,8 +24,7 @@
     </div>
   <% end %>
 </div>
-
-
+</div>
 <br>
-
+<br>
 <%= paginate @tweets %>

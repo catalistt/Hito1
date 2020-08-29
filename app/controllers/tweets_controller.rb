@@ -4,8 +4,8 @@ class TweetsController < ApplicationController
   end
 
   def show
-    @user = @user.image_url
-    @likes = Likes.with_tweet.count(distinct: true) 
+    @user_image = @user.image_url
+    #@likes = Likes.with_tweet.count(distinct: true) 
   end
 
 
@@ -59,6 +59,6 @@ class TweetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def tweet_params
-      params.require(:tweet).permit(:content, :likes, :retweets, :user)
+      params.require(:tweet).permit(:content, :likes_count, :retweets_count, :user, :image_url)
     end
 end

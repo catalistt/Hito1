@@ -8,7 +8,7 @@
 
 
   200.times do
-    tweet = Tweet.create(content: Faker::Lorem.paragraph, user_id: 1)
+    tweet = Tweet.create(content: Faker::Lorem.paragraph, user_id: 1, likes_count: 0, retweets_count: 0)
   end
 
 
