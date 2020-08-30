@@ -3,12 +3,17 @@
 <div class="row center">
   <div class="col-sm-2 col-md-2">
     <div class="card text-center" style="width: 30rem;">
-      <%= image_tag ( @tweet.user.image_url), class:"user_image rounded-circle border" if @tweet.user.image_url.present?%>
+      <%= image_tag ( @tweet.user.image_url), class:"user_image w3-circle" if @tweet.user.image_url.present?%>
       <p><h3 class="card-title"><%= @tweet.user %>
       <small class="text-secondary"><%= time_ago_in_words(@tweet.created_at) %> ago</small></p>
       <%= @tweet.content %></h3>
       <p><%= @tweet.likes_count %>  Likes 
       <%= @tweet.retweets_count %>  Retweets</p>
+
+
+      <p><% @likes.each do |like| %>
+            <%= image_tag ( like.user.image_url), class:"user_image w3-circle w3-opacity" if like.user.image_url.present?%>
+      <% end %></p>
     </div>
   </div>
 </div>

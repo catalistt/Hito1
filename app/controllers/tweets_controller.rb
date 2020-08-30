@@ -9,8 +9,9 @@ class TweetsController < ApplicationController
   def show
     @tweet = Tweet.find(params[:id])
     @user_c = current_user.id
-    #@users = User.joins("INNER JOIN likes ON memberships.group_id = posts.group_id"
-    #Tweet.joins(:likes).where("tweet_id = ?", params[:tweet_id])
+    @likes = @tweet.likes
+     
+
   end
 
 
@@ -64,6 +65,6 @@ class TweetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def tweet_params
-      params.require(:tweet).permit(:content, :likes_count, :retweets_count, :user, :image_url)
+      params.require(:tweet).permit(:content, :likes_count, :retweets_count, :user, :image_url, likes_attributes: [:user_id, :tweet_id])
     end
 end

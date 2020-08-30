@@ -20,13 +20,16 @@ class LikesController < ApplicationController
       tweet_id = tweet.id
       #obtener el id de user a través del helper de devise
       user_id = current_user.id
-      tiene_like = Like.where(user_id: user_id, tweet_id: tweet_id).present?
+      #encontrar el like correspondiente al tweet y al user
+      @this_like = Like.find_by(user_id: user_id, tweet_id: tweet_id)
+      @tiene_like = @this_like.present?
 
       #luego de tener al tweet y user asociado, hay que determinar si existe un registro de ese like
       #considerar que el registro sea mayor a 0, sino quedará negativo
-      if tiene_like && tweet.likes_count > 0
-        #si tiene like, entonces que lo elimine del registro de la tabla tweet
+      if @tiene_like && tweet.likes_count > 0
+        #si tiene like, entonces dislike y destruir
         tweet.likes_count-=1
+        @this_like.destroy
       else
         #se crea un like con el usuario y tweet correspondiente
         Like.create(user_id:user_id, tweet_id:tweet_id)
@@ -49,10 +52,6 @@ class LikesController < ApplicationController
         format.json { render json: @likes.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def destroy
-    @like.destroy
   end
 
   private
