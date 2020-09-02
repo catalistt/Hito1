@@ -4,10 +4,11 @@ class TweetsController < ApplicationController
   def index
 
     @tweet = Tweet.new
-    @followings = current_user.followings.ids
-    @tweets = Tweet.tweets_for_me(@followings).order('created_at desc').page params[:page]
-    
-    #@tweets = Tweet.order('created_at desc').page params[:page]
+    if user_signed_in?
+      @tweets = Tweet.tweets_for_me(current_user).order('created_at desc').page params[:page]
+    else
+      @tweets = Tweet.order('created_at desc').page params[:page]
+    end
   end
 
   def show
