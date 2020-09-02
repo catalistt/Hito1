@@ -2,8 +2,12 @@ class TweetsController < ApplicationController
   before_action :set_tweet, only: [:show, :edit, :update, :destroy]
 
   def index
+
     @tweet = Tweet.new
-    @tweets = Tweet.order('created_at desc').page params[:page]
+    @followings = current_user.followings.ids
+    @tweets = Tweet.tweets_for_me(@followings).order('created_at desc').page params[:page]
+    
+    #@tweets = Tweet.order('created_at desc').page params[:page]
   end
 
   def show
