@@ -29,6 +29,8 @@ gem 'jbuilder', '~> 2.5'
  gem 'devise'
  gem 'kaminari', :git => 'https://github.com/kaminari/kaminari' 
  gem 'faker'
+ gem 'activeadmin'
+ gem 'ransack'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

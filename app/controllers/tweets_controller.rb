@@ -2,6 +2,8 @@ class TweetsController < ApplicationController
   before_action :set_tweet, only: [:show, :edit, :update, :destroy]
 
   def index
+    @q = Tweet.ransack(params[:q])
+    @tweets = @q.result(distinct: true).order("created_at DESC").page(params[:page])
 
     @tweet = Tweet.new
     if user_signed_in?

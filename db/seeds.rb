@@ -7,8 +7,9 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-  200.times do
-    tweet = Tweet.create(content: Faker::Lorem.paragraph, user_id: 1, likes_count: 0, retweets_count: 0)
-  end
+  #200.times do
+  #  tweet = Tweet.create(content: Faker::Lorem.paragraph, user_id: 1, likes_count: 0, retweets_count: 0)
+  #end
 
 
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
