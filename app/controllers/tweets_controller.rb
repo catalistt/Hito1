@@ -2,14 +2,13 @@ class TweetsController < ApplicationController
   before_action :set_tweet, only: [:show, :edit, :update, :destroy]
 
   def index
-    @q = Tweet.ransack(params[:q])
-    @tweets = @q.result(distinct: true).order("created_at DESC").page(params[:page])
-
-    @tweet = Tweet.new
-    if user_signed_in?
-      @tweets = Tweet.tweets_for_me(current_user).order('created_at desc').page params[:page]
+    if current_user
+      @q = Tweet.tweets_for_me(current_user).ransack(params[:q])
+      @tweets = @q.result(distinct: true).order("created_at DESC").page(params[:page])
+      @tweet = Tweet.new
     else
-      @tweets = Tweet.order('created_at desc').page params[:page]
+      @q = Tweet.ransack(params[:q])
+      @tweets = @q.result(distinct: true).order("created_at DESC").page(params[:page])
     end
   end
 
@@ -17,8 +16,6 @@ class TweetsController < ApplicationController
     @tweet = Tweet.find(params[:id])
     @user_c = current_user.id
     @likes = @tweet.likes
-     
-
   end
 
 
