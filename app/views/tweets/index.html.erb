@@ -1,5 +1,6 @@
 <div class="container">
-
+<br>
+<br>
 <div class="">
   <%= search_form_for @q do |f| %>
     <div class="form-group">
@@ -21,19 +22,19 @@
 <div class="row center">
 <div class="col-sm-2 col-md-2">
   <% @tweets.each do |tweet| %>
-    <div class="card text-center" style="width: 30rem;">
-      <%= image_tag (tweet.user.image_url), class:"user_image w3-circle" if tweet.user.image_url.present?%>
-      <h3 class="card-title"><%= tweet.user %></h3> 
-     
+    <div class="card text-center border-secondary" style="width: 25rem;">
+      <br>
+      <p><%= image_tag (tweet.user.image_url), class:"user_image w3-circle " if tweet.user.image_url.present?%>
+      <h2 class="card-title"><%= tweet.user %></h2></p>
       <% words = tweet.content.split %>
-      <p><% words.each do |word| %>
+      <h3><% words.each do |word| %>
         <% if word.start_with?('#') %>
           <%  word_aux = word[1..-1] %>
           <%= link_to word, "tweets?utf8=✓&q%5Bcontent_cont%5D=%23#{word_aux}&commit=Search" %>
         <% else %> 
          <%= word %>
         <% end %>
-      <% end %></p>
+      <% end %></h3>
 
       <p><%= tweet.likes_count %>  Likes
       <%= tweet.retweets_count %>  Retweets</p>
