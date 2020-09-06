@@ -12,9 +12,8 @@
 </div>
 
 <% if current_user%>
-  <div class="center"> Would you like to tweet something? </h5> 
-  <%= render 'tweets/form', tweet: @tweet %>
-  </div>
+  <div><h3>Would you like to tweet something? </h3> 
+  <%= render 'tweets/form', tweet: @tweet %></div>
 <% end %> 
 <br>
 <br>
@@ -26,16 +25,7 @@
       <br>
       <p><%= image_tag (tweet.user.image_url), class:"user_image w3-circle " if tweet.user.image_url.present?%>
       <h2 class="card-title"><%= tweet.user %></h2></p>
-      <% words = tweet.content.split %>
-      <h3><% words.each do |word| %>
-        <% if word.start_with?('#') %>
-          <%  word_aux = word[1..-1] %>
-          <%= link_to word, "tweets?utf8=✓&q%5Bcontent_cont%5D=%23#{word_aux}&commit=Search" %>
-        <% else %> 
-         <%= word %>
-        <% end %>
-      <% end %></h3>
-
+      <%= hash_content(tweet)%>
       <p><%= tweet.likes_count %>  Likes
       <%= tweet.retweets_count %>  Retweets</p>
       <p>  

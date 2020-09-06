@@ -1,4 +1,5 @@
 class Tweet < ApplicationRecord
+  
   belongs_to :user
   has_many :likes, dependent: :destroy
   has_many :retweets, dependent: :destroy
@@ -6,17 +7,4 @@ class Tweet < ApplicationRecord
   paginates_per 50
 
   scope :tweets_for_me, ->(user) { where(user_id: user.followings.ids)  }
-
-  #def content_hash(content_tweet)
-  #  content_tweet = content_tweet.split
-  #  content_tweet.each do |word|
-  #    if word.start_with?('#')
-  #     tag = '<%= link_to 'word', "localhost:3000/tweets?search=#{word}"  %>'
-  #     tag << tag 
-  #  else
-  #  end
-  # end
-  #end
-  
-
 end

@@ -21,4 +21,6 @@
 }
 body {
   background-color: azure;
+  background-image: url("fondo2.png");
+  color: black;
 }

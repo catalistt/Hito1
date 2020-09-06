@@ -10,6 +10,7 @@ class TweetsController < ApplicationController
       @q = Tweet.ransack(params[:q])
       @tweets = @q.result(distinct: true).order("created_at DESC").page(params[:page])
     end
+      
   end
 
   def show
@@ -60,6 +61,7 @@ class TweetsController < ApplicationController
     end
     redirect_to root_path
   end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
