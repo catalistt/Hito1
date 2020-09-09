@@ -31,6 +31,7 @@ gem 'jbuilder', '~> 2.5'
  gem 'faker'
  gem 'activeadmin'
  gem 'ransack'
+ gem 'simple_token_authentication'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
