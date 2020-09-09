@@ -1,17 +1,35 @@
 class ApiController < ApplicationController
+  skip_before_action :verify_authenticity_token
 
   def news
     tweets = Tweet.all.last(50).reverse
+    latest_retweets = Retweet.all.group_by(&:tweet_id).map{|s| s.last.last}
 
-    tweets = tweets.map do |tweet| { 
+    tweets = tweets.map do |tweet|
+      #Auxiliar para obtener el último retweet del tweet asociado
+      aux_rt = latest_retweets.select { |rt| rt.tweet_id == tweet.id}
+      #Auxiliar para solo obtener el id del usuario asociado al retweet
+      aux_rt2 = aux_rt.map do |hash|
+        hash[:user_id]
+      end
+      #Auxiliar para reemplazar los datos null
+      aux_rt3 = 'no retweets'
+      if aux_rt2[0] != nil
+        aux_rt3 = aux_rt2[0]
+      end
+        
+
+      #lógica del hash a devolver
+      { 
         id: tweet.id, 
         content: tweet.content, 
         user: tweet.user_id,  
         like_count: tweet.likes_count,
-        retweets: tweet.retweets_count,
-        #retwitter_from:
+        retweets_count: tweet.retweets_count,
+        retwitter_from: aux_rt3
         }
       end
+
       if tweets
         render json: tweets, status: :ok
       else
@@ -36,4 +54,22 @@ class ApiController < ApplicationController
       render json: { error: "Error: fechas o parámetros no encontrados." }, status: 400
     end
   end
+
+  def tweets
+    #asignarle variable al usuario a través de la autenticación
+    user = User.authenticate(params[:email], params[:password])
+    #no funciona si no hay usuario
+    if user.nil?
+      render json: { errors: "Invalid user or tweet"}
+    else
+      @tweet = Tweet.new(tweet_params)
+      @tweet.user = user
+      render json: @tweet
+    end
+  end
+
+  def tweet_params
+    params.require(:tweet).permit(:content)
+  end
+
 end

@@ -1,5 +1,7 @@
 class User < ApplicationRecord
 
+  acts_as_token_authenticatable
+
   #relations
   has_many :likes, dependent: :destroy
   has_many :retweets, dependent: :destroy
@@ -11,6 +13,7 @@ class User < ApplicationRecord
   has_many :following_to, foreign_key: :user_follower_id, class_name: "FollowerFollowing", dependent: :destroy
   has_many :followings, through: :following_to, source: :following, dependent: :destroy
 
+  
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
