@@ -56,20 +56,15 @@ class ApiController < ApplicationController
   end
 
   def tweets
-    #asignarle variable al usuario a través de la autenticación
     user = User.authenticate(params[:email], params[:password])
-    #no funciona si no hay usuario
-    if user.nil?
-      render json: { errors: "Invalid user or tweet"}
-    else
-      @tweet = Tweet.new(tweet_params)
-      @tweet.user = user
-      render json: @tweet
-    end
+    @tweet = Tweet.new(tweet_params)
+    @tweet.user = user
   end
 
+
+  private
   def tweet_params
-    params.require(:tweet).permit(:content)
+    params.require(:tweet).permit(:content, :user_id, :like_count, :retweets_count)
   end
 
 end

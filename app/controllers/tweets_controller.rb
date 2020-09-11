@@ -1,6 +1,7 @@
 class TweetsController < ApplicationController
   before_action :set_tweet, only: [:show, :edit, :update, :destroy]
   skip_before_action :verify_authenticity_token
+  acts_as_token_authentication_handler_for User
 
   def index
     if current_user
